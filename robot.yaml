@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: load
+  name: robotcop
   namespace: lab
   labels:
     service: load
@@ -9,14 +9,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      service: load
+      service: robotcop
   template:
     metadata:
       labels:
-        service: load
+        service: robotcop
     spec:
       containers:
-      - name: load
+      - name: robotcop
         env:
           - name: HOST
             value: "http://web:8080/"
@@ -34,3 +34,18 @@ spec:
           requests:
             cpu: 100m
             memory: 100Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: robotcop
+  namespace: lab
+spec:
+  selector:
+    app: robotcop
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30082   
+  type: NodePort
