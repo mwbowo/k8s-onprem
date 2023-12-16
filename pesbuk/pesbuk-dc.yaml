@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  web:
+    container_name: web
+    image: mwbowo/sosmed-web:ccd01d8
+    ports:
+      - "80:80"
+    depends_on:
+      - db
+  db:
+    container_name: db
+    image: mwbowo/sosmed-db:abcd
