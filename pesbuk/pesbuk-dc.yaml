@@ -2,11 +2,11 @@ version: "3.9"
 services:
   web:
     container_name: web
-    image: mwbowo/sosmed-web:ccd01d8
+    image: mwbowo/pesbuk:1.0
     ports:
       - "80:80"
     depends_on:
       - db
   db:
     container_name: db
-    image: mwbowo/sosmed-db:abcd
+    image: mwbowo/pesbuk-db:1.0
