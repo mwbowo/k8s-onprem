@@ -4,7 +4,7 @@ metadata:
   name: peppermint-fe
   namespace: production
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: peppermint
@@ -19,9 +19,9 @@ spec:
         resources:
           limits:
             memory: "100Mi"
-            cpu: "256m"
+            cpu: "128m"
         ports:
-        - containerPort: 80
+        - containerPort: 3000
         
 ---
 apiVersion: v1
@@ -34,7 +34,7 @@ spec:
     app: peppermint
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
+      port: 3000
+      targetPort: 3000
       nodePort: 30090
   type: NodePort
