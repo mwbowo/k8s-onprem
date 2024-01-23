@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: peppermint-fe
+  namespace: production
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: peppermint
+  template:
+    metadata:
+      labels:
+        app: peppermint
+    spec:
+      containers:
+      - name: peppermint
+        image: pepperlabs/peppermint:latest
+        resources:
+          limits:
+            memory: "100Mi"
+            cpu: "256m"
+        ports:
+        - containerPort: 80
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: peppermint-fe
+  namespace: production
+spec:
+  selector:
+    app: peppermint
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30090
+  type: NodePort
