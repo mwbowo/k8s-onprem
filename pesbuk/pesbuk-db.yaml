@@ -1,40 +1,51 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pesbuk-db
-  namespace: dev
+  name: db
+  namespace: production
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pesbuk
+      app: db
   template:
     metadata:
       labels:
-        app: pesbuk
+        app: db
     spec:
       containers:
-      - name: pesbuk
+      - name: pesbuk-db
         image: mwbowo/pesbuk-db:1.0
         resources:
           limits:
-            memory: "128Mi"
+            memory: "500Mi"
             cpu: "500m"
         ports:
-        - containerPort: 3000
+        - name: db
+          containerPort: 3306
+        readinessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 75
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 3306
+          initialDelaySeconds: 75
+          periodSeconds: 10
         
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: pesbuk
-  namespace: dev
+  name: db
+  namespace: production
 spec:
   selector:
-    app: pesbuk
+    app: db
   ports:
     - protocol: TCP
-      port: 3000
-      targetPort: 3000
+      port: 3306
+      targetPort: db
       nodePort: 30084   
   type: NodePort

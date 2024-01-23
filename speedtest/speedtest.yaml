@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pesbuk-fe
-  namespace: production
+  name: speedtest
+  namespace: dev
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pesbuk
+      app: speedtest
   template:
     metadata:
       labels:
-        app: pesbuk
+        app: speedtest
     spec:
       containers:
-      - name: pesbuk
-        image: mwbowo/pesbuk:1.0
+      - name: speedtest
+        image: ghcr.io/librespeed/speedtest:latest
         resources:
           limits:
-            memory: "128Mi"
-            cpu: "256m"
+            memory: "512Mi"
+            cpu: "500m"
         ports:
         - containerPort: 80
         
@@ -27,14 +27,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: pesbuk-fe
-  namespace: production
+  name: speedtest
+  namespace: dev
 spec:
   selector:
-    app: pesbuk
+    app: speedtest
   ports:
     - protocol: TCP
       port: 80
       targetPort: 80
-      nodePort: 30083
+      nodePort: 30085   
   type: NodePort

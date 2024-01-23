@@ -1,40 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pesbuk-fe
+  name: speedtest-vaf
   namespace: production
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: pesbuk
+      app: speedtest-vaf
   template:
     metadata:
       labels:
-        app: pesbuk
+        app: speedtest-vaf
     spec:
       containers:
-      - name: pesbuk
-        image: mwbowo/pesbuk:1.0
+      - name: speedtest-vaf
+        image: openspeedtest/latest
         resources:
           limits:
-            memory: "128Mi"
-            cpu: "256m"
+            memory: "256Mi"
+            cpu: "500m"
         ports:
-        - containerPort: 80
+        - containerPort: 3000
         
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: pesbuk-fe
+  name: speedtest-vaf
   namespace: production
 spec:
   selector:
-    app: pesbuk
+    app: speedtest-vaf
   ports:
     - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 30083
+      port: 3000
+      targetPort: 3000
+      nodePort: 30086   
   type: NodePort
